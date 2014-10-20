@@ -86,7 +86,8 @@ void loop() {
 
   // funçao temperatura
 
-  valorcalor =(5.0 * analogRead(calorPino) * 100.0) / 1024; 
+  //valorcalor =(5.0 * analogRead(calorPino) * 100.0) / 1024;
+ valorcalor =getTemp();
 
   // acender o primeiro ledCalor, se temperatura maior que 35
   if (valorcalor > 35) {
