@@ -34,17 +34,18 @@
 
 #include <SPI.h>
 #include <Ethernet.h>
+#include <OneWire.h>
  
 // Enderecos MAC e IP do Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 0, 42);
+IPAddress ip(192, 168, 2, 42);
 char callback[27] = "arduinoEthernetComCallback";
 
 //int dht11pino = 2; // pino digital do sensor dht11
 int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
 int calorPino = 10;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
-//OneWire ds(calorPino);
+OneWire ds(calorPino);
 int ledMetano = 13;      // escolha o pino que acendera o ledMetano
 float valorMetano = 0;  //  guarda o valor medido no sensor MQ-4(metano)
 float limiteMetano = 600; // valor definido como limiar maximo de metano
@@ -121,7 +122,7 @@ void loop() {
 
           // TEMPERATURA
 
-          valorcalor = (5.0 * analogRead(calorPino) * 100.0) / 1024; 
+          valorcalor = getTemp(); 
 
           // acender o primeiro ledCalor, se temperatura maior que 35
           if (valorcalor > 35) {
@@ -211,45 +212,45 @@ void loop() {
   }
 } 
 
-// float getTemp(){
-//   byte data[12];
-//   byte addr[8];
+ float getTemp(){
+   byte data[12];
+   byte addr[8];
 
-//   if ( !ds.search(addr)) {
-//     //no more sensors on chain, reset search
-//     ds.reset_search();
-//     return -1000;
-//   }
+   if ( !ds.search(addr)) {
+     //no more sensors on chain, reset search
+     ds.reset_search();
+     return -1000;
+   }
 
-//   if ( OneWire::crc8( addr, 7) != addr[7]) {
-//     Serial.println("CRC is not valid!");
-//     return -1000;
-//   }
+   if ( OneWire::crc8( addr, 7) != addr[7]) {
+     Serial.println("CRC is not valid!");
+     return -1000;
+   }
 
-//   if ( addr[0] != 0x10 && addr[0] != 0x28) {
-//     Serial.print("Device is not recognized");
-//     return -1000;
-//   }
+   if ( addr[0] != 0x10 && addr[0] != 0x28) {
+     Serial.print("Device is not recognized");
+     return -1000;
+   }
 
-//   ds.reset();
-//   ds.select(addr);
-//   ds.write(0x44,1); 
+   ds.reset();
+   ds.select(addr);
+   ds.write(0x44,1); 
 
-//   byte present = ds.reset();
-//   ds.select(addr); 
-//   ds.write(0xBE); 
+   byte present = ds.reset();
+   ds.select(addr); 
+   ds.write(0xBE); 
 
-//   for (int i = 0; i < 9; i++) { 
-//     data[i] = ds.read();
-//   }
+   for (int i = 0; i < 9; i++) { 
+     data[i] = ds.read();
+   }
 
-//   ds.reset_search();
+   ds.reset_search();
 
-//   byte MSB = data[1];
-//   byte LSB = data[0];
+   byte MSB = data[1];
+   byte LSB = data[0];
 
-//   float TRead = ((MSB * 8) | LSB); 
-//   float Temperature = TRead / 16;
+   float TRead = ((MSB * 8) | LSB); 
+   float Temperature = TRead / 16;
 
-//   return Temperature;
-// }
+   return Temperature;
+ }
