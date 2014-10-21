@@ -25,7 +25,7 @@ dht11 DHT11;
 
 int dht11pino = 2; // pino digital do sensor dht11
 int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
-int calorPino = 10;  // escolha o pino que recebe o sinal do sensor de temperatura
+int calorPino = 3;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
 int ledMetano = 13;      // escolha o pino que acendera o ledMetano
@@ -202,7 +202,7 @@ ds.reset_search();
 byte MSB = data[1];
 byte LSB = data[0];
 
-float TRead = ((MSB * 8) | LSB); 
+float TRead = ((MSB << 8) | LSB); 
 float Temperature = TRead / 16;
 
 return Temperature;
