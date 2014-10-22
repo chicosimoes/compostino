@@ -33,13 +33,17 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include <OneWire.h>
+#include <dht11.h>
+
+
  
 // Enderecos MAC e IP do Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 IPAddress ip(192, 168, 2, 42);
 char callback[27] = "arduinoEthernetComCallback";
 
-//int dht11pino = 2; // pino digital do sensor dht11
+dht11 DHT11;
+int dht11pino = 2; // pino digital do sensor dht11
 int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
 int calorPino = 3;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
@@ -194,16 +198,23 @@ void loop() {
 
           client.print("\"Umidade\": ");
           client.print(valorumidade);
-          // client.print(",");
+          client.print(",");
 
           // funçao umidade do ar: 
 
-          // int chk = DHT11.read(dht11pino);
-          // Serial.print("umidade do ar: ");
-          // Serial.println((float)DHT11.humidity, 2);
+           int chk = DHT11.read(dht11pino);
+           Serial.print("umidade do ar: ");
+           Serial.println((float)DHT11.humidity, 2);
 
-          // Serial.print("Temperatura do ar: ");
-          // Serial.println((float)DHT11.temperature, 2);
+           Serial.print("Temperatura do ar: ");
+           Serial.println((float)DHT11.temperature, 2);
+           
+           client.print("\"UmidadeAr\": ");
+           client.print((float)DHT11.humidity, 2);
+           client.print(",");
+           client.print("\"UmidadeAr\": ");
+           client.print((float)DHT11.temperature, 2);
+           
 
           client.println("}')");
           break;
