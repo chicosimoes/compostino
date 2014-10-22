@@ -41,7 +41,7 @@ char callback[27] = "arduinoEthernetComCallback";
 
 //int dht11pino = 2; // pino digital do sensor dht11
 int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
-int calorPino = 10;  // escolha o pino que recebe o sinal do sensor de temperatura
+int calorPino = 3;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
 int ledMetano = 13;      // escolha o pino que acendera o ledMetano
@@ -51,7 +51,7 @@ float limiteMetano = 600; // valor definido como limiar maximo de metano
 int ledcalormeso = 11;   //ascende pino na temperatura boa para bact mesofilicas
 int ledcalortermo = 12;  //ascende pino na temperatura boa para bact termofilicas
 int ledcalorfrito = 13;  //ascende pino quando temperatura  muito alta
-float valorcalor = 0;    //guarda valor medido sensor LM35(temperatura)
+float valorcalor = 0;    //guarda valor medido sensor DS18S20(temperatura)
 float limitecalor = 70;  //Limite maximo de temperatura
 
 int ledseco = 8;  //ascende pino quando umidade esta baixa. Precisa molhar composteira.
@@ -111,8 +111,8 @@ void loop() {
 
           valorMetano = analogRead(metanoPino);
               // imprime o resultado no monitor serial:
-         // Serial.print("Metano igual a: " );                       
-          //Serial.println(valorMetano); 
+          Serial.print("Metano igual a: " );                       
+          Serial.println(valorMetano); 
 
           if (valorMetano >= limiteMetano){
             digitalWrite(ledMetano, HIGH);
@@ -171,8 +171,8 @@ void loop() {
           valorumidade = analogRead(umidadePino);
           
           //imprime valor umidade no serial
-            //Serial.print("Umidade do composto igual a: " );                       
-            //Serial.println(valorumidade); 
+            Serial.print("Umidade do composto igual a: " );                       
+            Serial.println(valorumidade); 
 
           // umidade menor que 40, significa que esta muito seco, ledseco ligado:
           if (valorumidade < umidademin) {
@@ -219,7 +219,7 @@ void loop() {
       }
     }
     // give the web browser time to receive the data
-    delay(100);
+    delay(1000);
     // close the connection:
     client.stop();
   }
