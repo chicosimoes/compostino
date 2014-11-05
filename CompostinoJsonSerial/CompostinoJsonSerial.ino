@@ -48,7 +48,7 @@ int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
 int calorPino = 3;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
-int ledMetano = 13;      // escolha o pino que acendera o ledMetano
+int ledMetano = 10;      // escolha o pino que acendera o ledMetano
 float valorMetano = 0;  //  guarda o valor medido no sensor MQ-4(metano)
 float limiteMetano = 600; // valor definido como limiar maximo de metano
 
