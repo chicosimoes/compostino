@@ -38,7 +38,7 @@
  
 // Enderecos MAC e IP do Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 2, 42);
+IPAddress ip(192, 168, 0, 42);
 char callback[27] = "arduinoEthernetComCallback";
 
 //int dht11pino = 2; // pino digital do sensor dht11
@@ -206,7 +206,7 @@ void loop() {
       }
     }
     // give the web browser time to receive the data
-    delay(1);
+    delay(1000);
     // close the connection:
     client.stop();
   }
