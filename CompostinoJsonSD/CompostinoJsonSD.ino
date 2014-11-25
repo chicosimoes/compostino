@@ -39,7 +39,7 @@
  
 // Enderecos MAC e IP do Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 0, 42);
+IPAddress ip(172, 16, 3, 31);
 char callback[27] = "arduinoEthernetComCallback";
 
 //int dht11pino = 2; // pino digital do sensor dht11
@@ -47,13 +47,13 @@ int metanoPino = A0;   // escolha o pino que recebe o sinal do sensor de metano
 int calorPino = 3;  // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
-int ledMetano = 13;      // escolha o pino que acendera o ledMetano
 float valorMetano = 0;  //  guarda o valor medido no sensor MQ-4(metano)
 float limiteMetano = 600; // valor definido como limiar maximo de metano
 
 int ledcalormeso = 10;   //ascende pino na temperatura boa para bact mesofilicas
 int ledcalortermo = 11;  //ascende pino na temperatura boa para bact termofilicas
 int ledcalorfrito = 12;  //ascende pino quando temperatura  muito alta
+int ledMetano = 13;      // escolha o pino que acendera o ledMetano
 float valorcalor = 0;    //guarda valor medido sensor LM35(temperatura)
 float limitecalor = 70;  //Limite maximo de temperatura
 
@@ -135,10 +135,10 @@ void loop() {
 
           // Escreve string para cartao SD
           //char tmp[255] = "";
-          sprintf(dataString, "%f", valorMetano);
+         // sprintf(dataString, "%f", valorMetano);
           //dtostrf(valorMetano, 0, 1, dataString);
           //dataString += String((float)valorMetano);
-          dataString += ", ";
+         // dataString += ",";
 
           // TEMPERATURA
 
