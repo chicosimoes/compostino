@@ -30,7 +30,7 @@ int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
 int ledMetano = 13;      // escolha o pino que acendera o ledMetano
 float valorMetano = 0;  //  guarda o valor medido no sensor MQ-4(metano)
-float limiteMetano = 600; // valor definido como limiar maximo de metano
+float limiteMetano = 300; // valor definido como limiar maximo de metano
 
 int ledcalormeso = 10;   //ascende pino na temperatura boa para bact mesofilicas
 int ledcalortermo = 11;  //ascende pino na temperatura boa para bact termofilicas
@@ -41,8 +41,8 @@ float limitecalor = 70;  //Limite maximo de temperatura
 int ledseco = 8;  //ascende pino quando umidade esta baixa. Precisa molhar composteira.
 int ledmolhado = 9;  //ascende pino quando umidade esta muito alta. 
 float valorumidade = 0; //guarda valor do sensor caseiro (umidade)
-float umidademin = 300;  //limite minimo da faixa ideal de umidade
-float umidademax = 370;   //limite maximo da faixa ideal de umidade
+float umidademin = 400;  //limite minimo da faixa ideal de umidade
+float umidademax = 600;   //limite maximo da faixa ideal de umidade
 
 
 void setup() {
@@ -126,21 +126,21 @@ void loop() {
   //funçao umidade
 
   // lendo o valor do sensor:
-  valorumidade =analogRead(umidadePino);
+  valorumidade =1024-analogRead(umidadePino);
 
-  // umidade menor que 40, significa que esta muito seco, ledseco ligado:
+  // umidade menor que 40%, significa que esta muito seco, ledseco ligado:
   if (valorumidade < umidademin) {
     digitalWrite(ledseco, HIGH);  
     digitalWrite(ledmolhado, LOW);  
   }
 
-  // umidade maior que 370, significa que esta muito molhado, ledmolhado ligado:
+  // umidade maior que 60%, significa que esta muito molhado, ledmolhado ligado:
   if (valorumidade > umidademax){
     digitalWrite(ledseco, LOW);  
     digitalWrite(ledmolhado, HIGH);
 
   }   
-  // umidade entre 40 e 370, todos os leds desligado:
+  // umidade entre 40% e 60%, todos os leds desligado:
   if (valorumidade > umidademin && valorumidade < umidademax) {
     digitalWrite(ledseco, LOW);  
     digitalWrite(ledmolhado, LOW);

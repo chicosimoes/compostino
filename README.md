@@ -1,4 +1,5 @@
 Compostino
+
 ===
 
 Monitor de composteira baseado em Arduino.
@@ -14,4 +15,3 @@ A idéia a médio prazo é acionarmos atuadores para corrigir eventuais amostras
 Dúvidas, ideeias ou sugestões mande para chicosimoes(em)riseup.net
 
 obrigado 
-
