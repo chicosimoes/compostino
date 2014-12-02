@@ -17,9 +17,9 @@ https://raw.githubusercontent.com/ruralkan/Compostino/master/
 */
 #include <SPI.h>
 #include <Ethernet.h>
-#include <dht11.h>
+//#include <dht11.h>
 #include <OneWire.h>
-#include <SD.h>
+//#include <SD.h>
 //////////////////////////////////////////////////////////////////Internet communications//////////////////////////////////////////////////////////////////////////
 // On the Ethernet Shield, CS is pin 4. Note that even if it's not
 // used as the CS pin, the hardware CS pin (10 on most Arduino boards,
@@ -43,7 +43,7 @@ EthernetClient client;
 //dht11 DHT11;
 //int dht11pino = 2; // pino digital do sensor dht11
 int metanoPino = A0; // escolha o pino que recebe o sinal do sensor de metano
-int calorPino = 3; // escolha o pino que recebe o sinal do sensor de temperatura
+int calorPino = 1; // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
 /////////////////////////////////////////////////////////////////Parameters to metano indicator////////////////////////////////////////////////////////////////////////////////
