@@ -110,7 +110,7 @@ int ledcalortermo = 47;  //ascende pino na temperatura boa para bact termofilica
 int ledcalorfrito = 48;  //ascende pino quando temperatura  muito alta
 int valorcalor = 0;    //guarda valor medido sensor LM35(temperatura)
 int valorcalorm=0;
-int limitecalor = 70;  //Limite maximo de temperatura
+int limitecalor = 60;  //Limite maximo de temperatura
 /////////////////////////////////////////////////////////////////Parameters to temperature indicator////////////////////////////////////////////////////////////////////////////////
 
 
@@ -168,7 +168,7 @@ void setup()
   Serial.println("card initialized.");  
   // Start Ethernet on Arduino
   
- // startEthernet();
+ startEthernet();
 ///////////////////////////////////////////////////////////////// Comunications parameters///////////////////////////////////////////////////////////////////////////////  
 
 }
@@ -239,7 +239,7 @@ valorcalor=valorcalorm;
      /////função para carregar data en sd card 
     sdcardload(dataString);
  /////função para carregar data en thingspeak
-// thingSpeakLoad(svalorumidade,svalorcalor,svalorMetano);
+thingSpeakLoad(svalorumidade,svalorcalor,svalorMetano);
  
 
 }
@@ -343,26 +343,26 @@ return Temperature;
 void indicatorTemperature(float valorcalor1){
   
   
-    // acender o primeiro ledCalor, se temperatura maior que 35
-   if((valorcalor1>35) && (valorcalor1<50)){
+    // acender o primeiro ledCalor, se temperatura entre 25 e 40
+   if((valorcalor1>25) && (valorcalor1<40)){
     digitalWrite(ledcalormeso, HIGH);  
     digitalWrite(ledcalortermo, LOW);  
     digitalWrite(ledcalorfrito, LOW); 
    }
    // acender primeiro e segundo ledCalor, se temperatura maior que 50 
-   else if((valorcalor1>=50)&&(valorcalor1<70)){
+   else if((valorcalor1>=40)&&(valorcalor1<60)){
     digitalWrite(ledcalormeso, LOW);  
     digitalWrite(ledcalortermo, HIGH);  
     digitalWrite(ledcalorfrito, LOW);
 }
   // acende primeiro, segundo e terceiro ledCalor, se temperatura maior que 70    
-   else if(valorcalor1>70){
+   else if(valorcalor1>60){
      digitalWrite(ledcalormeso, LOW);  
     digitalWrite(ledcalortermo, LOW);  
     digitalWrite(ledcalorfrito, HIGH); 
    }
    // se temperatura menor que 35, primeiro, segundo e terceiro ledcalor desligado  
-   else if(valorcalor1<35){
+   else if(valorcalor1<25){
     digitalWrite(ledcalormeso, LOW);  
     digitalWrite(ledcalortermo, LOW);  
     digitalWrite(ledcalorfrito, LOW);
@@ -393,9 +393,9 @@ void indicatorTemperature(float valorcalor1){
   }   
   // umidade entre 40 e 60, todos os leds desligado:
   if (valorumidade1 > umidademin && valorumidade < umidademax) {
-    digitalWrite(ledok, HIGH);  
+    digitalWrite(ledseco, LOW);  
     digitalWrite(ledmolhado, LOW);
-    digitalWrite(ledok, LOW); 
+    digitalWrite(ledok, HIGH); 
   }
 
 //Serial Print humedad values
@@ -513,7 +513,7 @@ void updateThingSpeak(String tsData)
   if (dataFile) {
     dataFile.println(dataString1);
     dataFile.close();
-    // print to the serial port too:
+   /* // print to the serial port too:
     Serial.println(dataString1);
   // imprime o resultado no monitor serial:
   Serial.print("Metano igual a: " );                       
@@ -524,7 +524,7 @@ void updateThingSpeak(String tsData)
   //Serial Print humedad values
   Serial.print("Umidade do composto igual a: " );                       
   Serial.println(valorumidade);
-  
+  */
   }  
   // if the file isn't open, pop up an error:
   else {
