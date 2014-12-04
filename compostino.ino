@@ -58,7 +58,7 @@ const int chipSelect = 4;
 byte mac[] = { 0xD4, 0x28, 0xB2, 0xFF, 0xA0, 0xA1 }; // Must be unique on local network
 // ThingSpeak Settings
 char thingSpeakAddress[] = "api.thingspeak.com";
-String writeAPIKey = "FM637ENN77ZMTW4C";
+String writeAPIKey = "7H89ZF4S63PCNOHT";
 const int updateThingSpeakInterval = 20*1000; // Time interval in milliseconds to update ThingSpeak (number of seconds * 1000 = interval)
 // Variable communication Setup
 long lastConnectionTime = 0;
@@ -82,7 +82,7 @@ The circuit:
 */
 /////////////////////////////////////////////////////////////////Measure Variables/////////////////////////////////////////////////////////////////////////////////
 int metanoPino = A0; // escolha o pino que recebe o sinal do sensor de metano
-int calorPino = 31; // escolha o pino que recebe o sinal do sensor de temperatura
+int calorPino = 7; // escolha o pino que recebe o sinal do sensor de temperatura
 int umidadePino = A2; // escolha o pino que recebe o sinal do sensor de umidade
 OneWire ds(calorPino);
 /////////////////////////////////////////////////////////////////Parameters to metano indicator////////////////////////////////////////////////////////////////////////////////
@@ -108,8 +108,8 @@ int ledmolhado = 45; //ascende pino quando umidade esta muito alta.
 int valorumidade = 0; //guarda valor do sensor caseiro (umidade)
 int ADCvalorumidade=0;
 int valorumidadem=0;
-int umidademin = 40; //limite minimo da faixa ideal de umidade
-int umidademax = 60; //limite maximo da faixa ideal de umidade
+int umidademin = 50; //limite minimo da faixa ideal de umidade
+int umidademax = 85; //limite maximo da faixa ideal de umidade
 /////////////////////////////////////////////////////////////////Parameters to humidity indicator////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////Measure Variables/////////////////////////////////////////////////////////////////////////////////
 void setup()
@@ -162,7 +162,7 @@ ADCvalorumidade =analogRead(umidadePino);
 /////////////////////////////////////////////////////////////////Inputs///////////////////////////////////////////////////////////////////////////////
 //Conversion ADC a Escala y sampling
 media(ADCvalorumidade,valorcalor,ADCvalorMetano);
-valorumidade=map(ADCvalorumidade, 0, 1023, 0, 100);
+valorumidade=map(ADCvalorumidade, 1023, 0, 0, 100);
 valorMetano=map(ADCvalorMetano, 0, 1023, 0, 100);
 valorcalor=valorcalorm;
 ////////////////////////////////////////////////Create messages to send and indicators////////////////////
@@ -181,12 +181,9 @@ indicatorMetano(valorMetano);
 ////////////////////////////////////////////////Create messages to send////////////////////
 //String para para escrever no cartão SD
 dataString = svalorumidade+","+svalorcalor+","+svalorMetano;
-Serial.print("valor de la umidade:");
-Serial.println(svalorumidade);
-Serial.print("valor de la temperatura:");
-Serial.println(svalorcalor);
-Serial.print("valor de la metano:");
-Serial.println(svalorMetano);
+
+lecturas();
+
 /////função para carregar data en sd card
 sdcardload(dataString);
 /////função para carregar data en thingspeak
@@ -210,7 +207,7 @@ else
 Serial.println("Arduino connected to network using DHCP");
 Serial.println();
 }
-delay(1000);
+delay(10000);
 }
 /////////////////////////////////////////////////////////////////////Metano Indicator//////////////////////////////////////////////////////////////
 void indicatorMetano(float valorMetano1){
@@ -304,11 +301,11 @@ digitalWrite(ledseco, LOW);
 digitalWrite(ledok, LOW);
 digitalWrite(ledmolhado, HIGH);
 }
-// umidade entre 40 e 60, todos os leds desligado:
-if (valorumidade1 > umidademin && valorumidade < umidademax) {
+// umidade entre 40 e 60, ligar led umdade ideal:
+if (valorumidade1 > umidademin && valorumidade1 < umidademax) {
+digitalWrite(ledseco, LOW);
 digitalWrite(ledok, HIGH);
 digitalWrite(ledmolhado, LOW);
-digitalWrite(ledok, LOW);
 }
 }
 ///////////////////////////////////Enviar valores a Thingspeak.com////////////////
@@ -379,17 +376,6 @@ File dataFile = SD.open("datalog.txt", FILE_WRITE);
 if (dataFile) {
 dataFile.println(dataString1);
 dataFile.close();
-// print to the serial port too:
-Serial.println(dataString1);
-// imprime o resultado no monitor serial:
-Serial.print("Metano igual a: " );
-Serial.println(valorMetano);
-// imprime resultados no monitor serial:
-Serial.print("A temperatura igual a:");
-Serial.println(valorcalor);
-//Serial Print humedad values
-Serial.print("Umidade do composto igual a: " );
-Serial.println(valorumidade);
 }
 // if the file isn't open, pop up an error:
 else {
@@ -412,4 +398,25 @@ tenTot2 = 0; //reset total variable
 tenTot3 = 0; //reset total variable
 j=0;
 }
+}
+
+void lecturas(){
+ 
+  if(millis() - lastConnectionTime > updateThingSpeakInterval){
+  
+// imprime o resultado no monitor serial:
+Serial.print("Metano igual a: " );
+Serial.println(valorMetano);
+delay(1000);
+// imprime resultados no monitor serial:
+Serial.print("A temperatura igual a:");
+Serial.println(valorcalor);
+delay(1000);
+//Serial Print humedad values
+Serial.print("Umidade do composto igual a: " );
+Serial.println(valorumidade);
+delay(1000);  
+}
+ 
+  
 }
