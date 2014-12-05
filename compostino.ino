@@ -186,7 +186,7 @@ lecturas();
 
 /////função para carregar data en sd card
 sdcardload(dataString);
-/////função para carregar data en thingspeak
+/////função para carregar data en thingspeak para ativar a funcao web descomente a linha abaixo
 //thingSpeakLoad(svalorumidade,svalorcalor,svalorMetano);
 }
 ////////////////////////////////iniciar sessão internet////////////////////////////////////
