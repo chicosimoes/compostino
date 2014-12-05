@@ -164,7 +164,7 @@ ADCvalorumidade =analogRead(umidadePino);
 media(ADCvalorumidade,valorcalor,ADCvalorMetano);
 valorumidade=map(ADCvalorumidade, 1023, 0, 0, 100);
 valorMetano=map(ADCvalorMetano, 0, 1023, 0, 100);
-valorcalor=valorcalorm;
+valorcalor=valorcalor;
 ////////////////////////////////////////////////Create messages to send and indicators////////////////////
 //Convert valorumidade to string for Internet transmition
 String svalorumidade = String(valorumidade,DEC);
@@ -187,7 +187,7 @@ lecturas();
 /////função para carregar data en sd card
 sdcardload(dataString);
 /////função para carregar data en thingspeak
-thingSpeakLoad(svalorumidade,svalorcalor,svalorMetano);
+//thingSpeakLoad(svalorumidade,svalorcalor,svalorMetano);
 }
 ////////////////////////////////iniciar sessão internet////////////////////////////////////
 void startEthernet()
